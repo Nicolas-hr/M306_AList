@@ -49,10 +49,10 @@ if ($register)
  
  
      // Check if account already exist with this email
-     if (verifyEmail($emailUser))
+    /* if (verifyEmail($emailUser))
      {
          $error["email"] = "Mail already use";
-     }
+     }*/
      //Check if both password are the same
      if ($pwdUser != $pwdUser2)
      {
@@ -63,7 +63,7 @@ if ($register)
      if (count($error) == 0)
      {
          $pwdUser = sha1($emailUser.$pwdUser);
-         registerUser($nicknameUser,$emailUser,$pwdUser,$countryUser,$birthdayUser);
+         registerUser($nicknameUser,$emailUser,$pwdUser);
          $_SESSION["register"] = true;
          header("Location: connection.php");
      }
