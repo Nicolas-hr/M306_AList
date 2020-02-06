@@ -33,7 +33,7 @@
                 <div class="form-group">
                   <div class="row">
                     <div class="col">
-                      <label for="nickname">Nickname or Mail:</label>
+                      <label for="nickname">Nickname:</label>
                       <?php if (isset($erreur["nickname"])) : ?>
                         <input type="text" class="form-control is-invalid" id="nicknameUser" placeholder="Error nickname" name="nicknameUser" required>
                         <div class="invalid-feedback">Please enter a valid nickname</div>
