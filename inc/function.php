@@ -1,5 +1,4 @@
 <?php
-}
 /*
 *     Author              :  Fujise Thomas, Hoarau Nicolas.
 *     Project             :  AList.
@@ -16,8 +15,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/M306_Alist/inc/dbConnect.php';
  * @param string $password
  * @return array || null
  */
-function LoginWith($mail, $password)
-{
+function Login($mail, $password) {
   $query = <<<EX
   SELECT idUser, email, username, 
   FROM t_user
@@ -35,12 +33,13 @@ function LoginWith($mail, $password)
 
     $result = $requestLogin->fetch(PDO::FETCH_ASSOC);
 
-    return $result !== false > 0 ? $result : null;
+    return count($result) > 0 ? $result : null;
   } catch (PDOException $e) {
     $e->getMessage('Error while login', $e::getMessage());
 
     return null;
   }
+}
 
 /**
  * function for user registration in database
@@ -50,8 +49,7 @@ function LoginWith($mail, $password)
  * @param [string] $pwd
  * @return void
  */
-function registerUser($nickname, $email, $pwd, $activation = 0,$state = 0, $role = 1)
-{
+function registerUser($nickname, $email, $pwd, $activation = 0,$state = 0, $role = 1) {
     //$sql = "INSERT INTO t_user(NICKNAME, EMAIL, ACTIVATION, STATE, PASSWORD,ROLE, EMAIL_TOKEN) VALUES(:nickname,:email,:activation,:state,:password,:role,:emailToken)";
     $sql = <<<EX
         INSERT INTO t_user(NICKNAME, EMAIL, ACTIVATION, STATE, PASSWORD,ROLE, EMAIL_TOKEN)
@@ -69,11 +67,12 @@ function registerUser($nickname, $email, $pwd, $activation = 0,$state = 0, $role
     $req->execute();
     $send = TMailer::sendMail(array($email),$nickname, $token);
 }
+
 /**
  * Function for email token verification
  * @return int id user else false
  */
-function verifyToken($token){
+function verifyToken($token) {
     $sql = "SELECT id FROM t_user WHERE email_token = :token";
     $req = EDatabase::getDb()->prepare($sql);
     $req->bindParam(':token', $token, \PDO::PARAM_STR);
@@ -87,10 +86,11 @@ function verifyToken($token){
         return false;
     }
 }
+
 /**
  * Function for account activation
  */
-function activateAccount($id){
+function activateAccount($id) {
     $sql = "UPDATE t_user SET ACTIVATED = 1 WHERE id = :idUser";
     $req = EDatabase::getDb()->prepare($sql);
     $req->bindParam('idUser', $id[0], \PDO::PARAM_INT);
