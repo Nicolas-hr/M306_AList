@@ -33,13 +33,8 @@
                 <div class="form-group">
                   <div class="row">
                     <div class="col">
-                      <label for="nickname">Nickname or Mail:</label>
-                      <?php if (isset($erreur["nickname"])) : ?>
-                        <input type="text" class="form-control is-invalid" id="nicknameUser" placeholder="Error nickname" name="nicknameUser" required>
-                        <div class="invalid-feedback">Please enter a valid nickname</div>
-                      <?php else : ?>
-                        <input type="text" class="form-control" id="nickname" placeholder="Nickname" name="nicknameUser" required value="<?= isset($nicknameUser) ? $nicknameUser : ""?>">
-                      <?php endif; ?>
+                      <label for="email">Email:</label>
+                      <input type="email" class="form-control" id="email" placeholder="Email" name="email" required>
                     </div>
                   </div>
                 </div>
@@ -47,19 +42,14 @@
                   <div class="row">
                     <div class="col">
                       <label for="emailStagiaire">Password :</label>
-                      <?php if (isset($erreur["password"])) : ?>
-                        <input type="password" class="form-control is-invalid" id="password" placeholder="******" name="password" required>
-                        <div class="invalid-feedback"><?= $erreur["password"] ?></div>
-                      <?php else : ?>
-                        <input type="password" class="form-control" id="password" placeholder="******" name="password" required>
-                      <?php endif; ?>
+                      <input type="password" class="form-control" id="password" placeholder="******" name="password" required>
                     </div>
-                </div>
-                <div class="form-group">
-                  <label for="">&nbsp;</label>
-                  <input type="submit" class="form-control btn btn-outline-primary" id="registerUser" placeholder="Inscription" value="Register" name="btnAddUser">
-                  <a href="./register.php">Doesn't have an account? Register</a>
-                </div>
+                  </div>
+                  <div class="form-group">
+                    <laSbel>&nbsp;</laSbel>
+                    <input type="submit" class="form-control btn btn-outline-primary" id="btnLogUser" value="Login" name="btnLogUser">
+                    <a href="./register.php">Doesn't have an account? Register</a>
+                  </div>
               </form>
             </div>
           </div>

@@ -1,6 +1,6 @@
 <?php
 /*
-*     Author              :  Fujise Thomas.
+*     Author              :  Fujise Thomas, Hoarau Nicolas.
 *     Project             :  AList.
 *     Page                :  Function.php.
 *     Brief               :  Function page for the web application.
@@ -9,7 +9,45 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/M306_Alist/inc/dbConnect.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/M306_Alist/inc/tMailer.php';
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOGIN FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+/**
+ * @author Hoarau Nicolas
+ * 
+ * @brief function for user login in database
+ *
+ * @param string $mail
+ * @param string $password
+ * 
+ * @return array || null
+ */
+function Login($mail, $password) {
+  $query = <<<EOT
+  SELECT idUser, email, username
+  FROM t_user
+  WHERE email = :username 
+  AND password = :userPwd
+  EOT;
+
+  $password = sha1($password . $mail);
+
+  try {
+    $requestLogin = EDatabase::prepare($query);
+    $requestLogin->bindParam(':wayToConnectValue', $mail, PDO::PARAM_STR);
+    $requestLogin->bindParam(':userPwd', $password, PDO::PARAM_STR);
+    $requestLogin->execute();
+
+    $result = $requestLogin->fetch(PDO::FETCH_ASSOC);
+
+    return count($result) > 0 ? $result : null;
+  } catch (PDOException $e) {
+    $e->getMessage('Error while login', $e::getMessage());
+
+    return null;
+  }
+}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ REGISTER FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /**
  * function for user registration in database
  *
@@ -36,6 +74,7 @@ function registerUser($nickname, $email, $pwd, $logo = "logo.png", $activated = 
     $req->execute();
     $send = TMailer::sendMail(array($email),$nickname, $token);
 }
+
 /**
  * Function for email token verification
  * @return int id user else false
@@ -54,6 +93,7 @@ function verifyToken($token){
         return false;
     }
 }
+
 /**
  * Function for account activation
  */
@@ -63,4 +103,36 @@ function activateAccount($id){
     $req->bindParam('idUser', $id[0], \PDO::PARAM_INT);
     $req->execute();
 }
-?>
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PROFILE FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/**
+ * @author Nicolas Hoarau
+ * 
+ * @brief function for getting user data
+ *
+ * @param integer $userId user id
+ * @return array || null
+ */
+function GetUserData(int $userId) {
+  $query = <<<EX
+  SELECT u.username, u.logo, l.note, l.dateWatched, a.name
+  FROM t_user AS u
+  JOIN t_library as l ON u.idUser = l.idUser
+  JOIN t_anime as a ON l.idAnime = a.idAnime
+  WHERE u.idUser = :idUser 
+  EX;
+
+  try {
+    $requestUserData= EDatabase::prepare($query);
+    $requestUserData->bindParam(':userPwd', $userId, PDO::PARAM_INT);
+    $requestUserData->execute();
+
+    $userData = $requestUserData->fetch(PDO::FETCH_ASSOC);
+
+    return count($userData) > 0 ? $userData : null;
+  } catch (PDOException $e) {
+    $e->getMessage('Error while login', $e::getMessage());
+
+    return null;
+  }
+}

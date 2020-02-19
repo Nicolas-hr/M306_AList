@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  $("#btnSendPosts").click(Login);
+  $("#btnLogUser").click(Login);
 });
 
 function Login(event) {
@@ -8,16 +8,16 @@ function Login(event) {
   }
 
   // intialisation
-  let username = $("#nicknameUser").val();
+  let email = $("#email").val();
   let password = $("#password").val();
 
   // processing
   if (username.length == 0) {
-    $("#nicknameUser").css("border-color", "red");
-    $("#nicknameUser").focus();
+    $("#email").css("border-color", "red");
+    $("#email").focus();
     return;
   } else {
-    $("#nicknameUser").css("border-color", "");
+    $("#email").css("border-color", "");
   }
 
   if (password.length == 0) {
@@ -31,9 +31,11 @@ function Login(event) {
   $.ajax({
     type: "post",
     url: "./lib/register.php",
-    data: {"username": username, "password": password},
+    data: { email: email, password: password },
     dataType: "json",
-    success: response => {},
+    success: response => {
+      window.location.href = "./index.php";
+    },
     error: () => {}
   });
 }
