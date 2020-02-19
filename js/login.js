@@ -8,16 +8,16 @@ function Login(event) {
   }
 
   // intialisation
-  let username = $("#nickname").val();
+  let email = $("#email").val();
   let password = $("#password").val();
 
   // processing
   if (username.length == 0) {
-    $("#nickname").css("border-color", "red");
-    $("#nickname").focus();
+    $("#email").css("border-color", "red");
+    $("#email").focus();
     return;
   } else {
-    $("#nickname").css("border-color", "");
+    $("#email").css("border-color", "");
   }
 
   if (password.length == 0) {
@@ -31,7 +31,7 @@ function Login(event) {
   $.ajax({
     type: "post",
     url: "./lib/register.php",
-    data: { username: username, password: password },
+    data: { email: email, password: password },
     dataType: "json",
     success: response => {
       window.location.href = "./index.php";

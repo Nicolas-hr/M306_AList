@@ -33,8 +33,8 @@
                 <div class="form-group">
                   <div class="row">
                     <div class="col">
-                      <label for="nickname">Nickname:</label>
-                      <input type="text" class="form-control" id="nickname" placeholder="Nickname" name="nickname" required>
+                      <label for="email">Email:</label>
+                      <input type="email" class="form-control" id="email" placeholder="Email" name="email" required>
                     </div>
                   </div>
                 </div>

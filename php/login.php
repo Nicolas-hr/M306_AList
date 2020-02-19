@@ -2,11 +2,11 @@
 require_once '../inc/function.php';
 
 // Initialisation
-$username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
+$email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_STRING);
 $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
 
-if (strlen($username) > 0 && strlen($password) > 0) {
-    $loggedUser = Login($username, $password);
+if (strlen($email) > 0 && strlen($password) > 0) {
+    $loggedUser = Login($email, $password);
 
   if ($loggedUser !== null) {
     $_SESSION["loggedUser"] = $loggedUser;
