@@ -13,7 +13,7 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/M306_Alist/inc/function.php';
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-$register = filter_input(INPUT_POST,"btnRegister");
+$register = filter_input(INPUT_POST,"registerUser");
 
 if ($register)
 {
@@ -27,24 +27,28 @@ if ($register)
      if (!$nicknameUser)
      {
          $error["nickname"] = "Nickname incomplet";
+         echo "NNN";
      }
  
      // Check if email field is an email and is not empty
      if (!$emailUser)
      {
          $error["email"] = "Email incomplet";
+         echo "EEE";
      }
  
      // Check if password is not empty
      if (!$pwdUser)
      {
          $error["password"] = "Missing password";
+         echo "PWDD";
      }
  
      // Check if confirm password is not empty
      if (!$pwdUser2)
      {
          $error["password"] = "Missing password";
+         echo "PWDDD";
      } 
  
  
@@ -57,6 +61,7 @@ if ($register)
      if ($pwdUser != $pwdUser2)
      {
          $error["password"] = "Both password are not the same";
+         echo "PWD";
      }
      
      // Check if there is no error in the form if so send data to the db.
@@ -65,7 +70,7 @@ if ($register)
          $pwdUser = sha1($emailUser.$pwdUser);
          registerUser($nicknameUser,$emailUser,$pwdUser);
          $_SESSION["register"] = true;
-         header("Location: connection.php");
+         header("Location: login.php");
      }
 
 }

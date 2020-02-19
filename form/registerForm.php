@@ -57,7 +57,7 @@
                         </div>
                         <div class="form-group">
                                 <label for="">&nbsp;</label>
-                                <input type="submit" class="form-control btn btn-outline-primary" id="registerUser" placeholder="Inscription" value="Register" name="btnAddUser">
+                                <input type="submit" class="form-control btn btn-outline-primary" id="registerUser" placeholder="Register" value="Register" name="registerUser">
                                 <a href="./index.php">Already register? Log in</a>
                         </div>
                         

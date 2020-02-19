@@ -8,6 +8,7 @@
 */
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/M306_Alist/inc/dbConnect.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/M306_Alist/inc/tMailer.php';
 
 /**
  * function for user registration in database
@@ -17,22 +18,21 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/M306_Alist/inc/dbConnect.php';
  * @param [string] $pwd
  * @return void
  */
-function registerUser($nickname, $email, $pwd, $activation = 0,$state = 0, $role = 1)
+function registerUser($nickname, $email, $pwd, $logo = "logo.png", $activated = 0, $role = 1)
 {
     //$sql = "INSERT INTO t_user(NICKNAME, EMAIL, ACTIVATION, STATE, PASSWORD,ROLE, EMAIL_TOKEN) VALUES(:nickname,:email,:activation,:state,:password,:role,:emailToken)";
     $sql = <<<EX
-        INSERT INTO t_user(NICKNAME, EMAIL, ACTIVATION, STATE, PASSWORD,ROLE, EMAIL_TOKEN)
-        VALUES(:nickname,:email,:activation,:state,:password,:role,:emailToken)
+        INSERT INTO t_user(username, password, email, logo, email_token, activated, idRole) VALUES(:username, :password, :email, :logo, :emailToken, :activated, :role)
     EX;
     $req = EDatabase::getDb()->prepare($sql);
     $token = sha1($email . microtime());
-    $req->bindParam(':nickname', $nickname, \PDO::PARAM_STR);
-    $req->bindParam(':email',$email, \PDO::PARAM_STR);
+    $req->bindParam(':username', $nickname, \PDO::PARAM_STR);
     $req->bindParam(':password', $pwd, \PDO::PARAM_STR);
-    $req->bindParam(':activation', $activation, \PDO::PARAM_INT);
-    $req->bindParam(':state', $state , \PDO::PARAM_INT);
+    $req->bindParam(':email',$email, \PDO::PARAM_STR);
+    $req->bindParam(':logo', $logo, \PDO::PARAM_STR);
+    $req->bindParam(':emailToken', $token, \PDO::PARAM_STR);
+    $req->bindParam(':activated', $activated, \PDO::PARAM_INT);
     $req->bindParam(':role', $role, \PDO::PARAM_INT);
-    $req->bindParam(':emailToken', $token, \PDO::PARAM_STR);    
     $req->execute();
     $send = TMailer::sendMail(array($email),$nickname, $token);
 }
@@ -41,7 +41,7 @@ function registerUser($nickname, $email, $pwd, $activation = 0,$state = 0, $role
  * @return int id user else false
  */
 function verifyToken($token){
-    $sql = "SELECT id FROM t_user WHERE email_token = :token";
+    $sql = "SELECT idUser FROM t_user WHERE email_token = :token";
     $req = EDatabase::getDb()->prepare($sql);
     $req->bindParam(':token', $token, \PDO::PARAM_STR);
     $req->execute();
@@ -58,7 +58,7 @@ function verifyToken($token){
  * Function for account activation
  */
 function activateAccount($id){
-    $sql = "UPDATE t_user SET ACTIVATED = 1 WHERE id = :idUser";
+    $sql = "UPDATE t_user SET ACTIVATED = 1 WHERE idUser = :idUser";
     $req = EDatabase::getDb()->prepare($sql);
     $req->bindParam('idUser', $id[0], \PDO::PARAM_INT);
     $req->execute();
