@@ -8,20 +8,25 @@
 */
 require_once $_SERVER['DOCUMENT_ROOT'] . '/M306_Alist/inc/dbConnect.php';
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOGIN FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 /**
- * Login
+ * @author Hoarau Nicolas
+ * 
+ * @brief function for user login in database
  *
  * @param string $mail
  * @param string $password
+ * 
  * @return array || null
  */
 function Login($mail, $password) {
-  $query = <<<EX
-  SELECT idUser, email, username, 
+  $query = <<<EOT
+  SELECT idUser, email, username
   FROM t_user
-  WHERE `{$mail}` = :username 
-  AND `{$password}` = :userPwd
-  EX;
+  WHERE email = :username 
+  AND password = :userPwd
+  EOT;
 
   $password = sha1($password . $mail);
 
@@ -41,6 +46,7 @@ function Login($mail, $password) {
   }
 }
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ REGISTER FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /**
  * function for user registration in database
  *
@@ -95,4 +101,37 @@ function activateAccount($id) {
     $req = EDatabase::getDb()->prepare($sql);
     $req->bindParam('idUser', $id[0], \PDO::PARAM_INT);
     $req->execute();
+}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PROFILE FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/**
+ * @author Nicolas Hoarau
+ * 
+ * @brief function for getting user data
+ *
+ * @param integer $userId user id
+ * @return array || null
+ */
+function GetUserData(int $userId) {
+  $query = <<<EX
+  SELECT u.username, u.logo, l.note, l.dateWatched, a.name
+  FROM t_user AS u
+  JOIN t_library as l ON u.idUser = l.idUser
+  JOIN t_anime as a ON l.idAnime = a.idAnime
+  WHERE u.idUser = :idUser 
+  EX;
+
+  try {
+    $requestUserData= EDatabase::prepare($query);
+    $requestUserData->bindParam(':userPwd', $userId, PDO::PARAM_INT);
+    $requestUserData->execute();
+
+    $userData = $requestUserData->fetch(PDO::FETCH_ASSOC);
+
+    return count($userData) > 0 ? $userData : null;
+  } catch (PDOException $e) {
+    $e->getMessage('Error while login', $e::getMessage());
+
+    return null;
+  }
 }
