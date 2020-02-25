@@ -24,7 +24,7 @@ class TMailer{
                 $message->setSubject('Account Validation');
                 $message->setFrom(array('alist.noreply@gmail.com' => 'Alist'));
                 $message->setTo($mailUser);
-            
+                
                 $body = <<<EX
                 <html> 
                     <head>
@@ -32,11 +32,9 @@ class TMailer{
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
                     </head>
                     <body>
-                        <img src="../img/welcome.gif" alt="Welcome Gif">
+                        <img src="{../img/welcome.gif}" alt="Welcome Gif">
                         <h1>Hi {$nickname}</h1>
-                        <p>Welcome to Alist, </br> Please confirm that <b>{$mailUser}</b> is your email adress by clicking on the button below or use this link : <a href="localhost/Project/verified.php?token={$token}">Verify</a> 
-                        within 24 hours.</p>
-
+                        <p>Welcome to Alist, </br> Please confirm that <b>{$mailUser[0]}</b> is your email adress by clicking on the button below or use this link : <a href="localhost/M306_Alist/verified.php?token={$token}">Verify</a> within 24 hours.</p>                       
                         <a href="localhost/M306_Alist/verified.php?token={$token}" class="form-control btn btn-outline-primary">Account Activation</a>
                     </body>
                 </html>
