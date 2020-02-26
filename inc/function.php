@@ -25,15 +25,15 @@ function Login($mail, $password) {
   $query = <<<EOT
   SELECT idUser, email, username
   FROM t_user
-  WHERE email = :username 
+  WHERE email = :email 
   AND password = :userPwd
   EOT;
 
-  $password = sha1($password . $mail);
+  $password = sha1($mail . $password);
 
   try {
-    $requestLogin = EDatabase::prepare($query);
-    $requestLogin->bindParam(':wayToConnectValue', $mail, PDO::PARAM_STR);
+    $requestLogin = EDatabase::getDb()->prepare($query);
+    $requestLogin->bindParam(':email', $mail, PDO::PARAM_STR);
     $requestLogin->bindParam(':userPwd', $password, PDO::PARAM_STR);
     $requestLogin->execute();
 
@@ -132,7 +132,7 @@ function GetUserData(int $userId) {
   EX;
 
   try {
-    $requestUserData= EDatabase::prepare($query);
+    $requestUserData= EDatabase::getDb()->prepare($query);
     $requestUserData->bindParam(':userPwd', $userId, PDO::PARAM_INT);
     $requestUserData->execute();
 
