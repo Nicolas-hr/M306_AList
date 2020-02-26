@@ -9,8 +9,20 @@
 
 require_once __DIR__.'/dbConnect.php';
 require_once __DIR__.'/tMailer.php';
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOGIN FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOGGED FUNCTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/**
+ * @author Hoarau Nicolas
+ * 
+ * Check if the user is logged
+ * 
+ * @return bool
+ */
+function IsLogged() {
+  return array_key_exists('loggedIn', $_SESSION) && $_SESSION['loggedIn'];
+}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOGIN FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /**
  * @author Hoarau Nicolas
  * 
@@ -145,6 +157,7 @@ function GetUserData(int $userId) {
     return null;
   }
 }
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ HOME DISPLAY FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function GetAllAnime() {
   $sql = <<<EX
