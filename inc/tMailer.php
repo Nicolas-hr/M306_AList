@@ -1,6 +1,7 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/M306_Alist/swiftmailer5/lib/swift_required.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/M306_Alist/config/config.php';
+require_once dirname(__DIR__).'/swiftmailer5/lib/swift_required.php';
+require_once dirname(__DIR__).'/config/config.php';
+
 //Class Mailer
 class TMailer{
 

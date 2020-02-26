@@ -7,8 +7,8 @@
 *     Starting Date       :  05.02.2020.
 */
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/M306_Alist/inc/dbConnect.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/M306_Alist/inc/tMailer.php';
+require_once __DIR__.'/dbConnect.php';
+require_once __DIR__.'/tMailer.php';
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOGIN FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
@@ -163,6 +163,6 @@ function GetAllAnime() {
   }
   $message .= "<div class='row'>";
   foreach ($animes as $key => $anime){
-          $message
+          //$message
   }
 }
