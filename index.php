@@ -41,6 +41,11 @@ if (session_status() == PHP_SESSION_NONE) {
 
       <div class="container">
 
+      <?php
+      foreach (GetAllAnime() as $key => $anime){
+          
+      }
+      ?>
         <div class="row">
           <div class="col-md-4">
             <h2>Anime#1</h2>

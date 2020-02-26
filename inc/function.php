@@ -145,3 +145,24 @@ function GetUserData(int $userId) {
     return null;
   }
 }
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ HOME DISPLAY FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function GetAllAnime() {
+  $sql = <<<EX
+  SELECT idAnime, name, avgNote, addDate, cover, description 
+  FROM t_anime
+  EX;
+  try{
+    $req = EDatabase::getDb()->prepare($sql);
+    $req->execute();
+    $animes = $req->fetchAll(PDO::FETCH_ASSOC);
+    return count($animes) > 0 ? $animes : null;
+  }
+  catch (PDOException $e) {
+    $e->getMessage('Error while login', $e->getMessage());
+    return null;
+  }
+  $message .= "<div class='row'>";
+  foreach ($animes as $key => $anime){
+          $message
+  }
+}
