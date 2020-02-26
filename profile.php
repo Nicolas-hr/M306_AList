@@ -27,7 +27,7 @@ if (session_status() == PHP_SESSION_NONE) {
 </head>
 
 <body>
-  <?php include './inc/navbar.inc.html'; ?>
+  <?php include './inc/navbar.inc.php'; ?>
   <br>
   <div id="profil"></div>
 
@@ -41,13 +41,21 @@ if (session_status() == PHP_SESSION_NONE) {
   <script src="./js/profile.js"></script>
   <script>
         $(document).ready(() => {
+          let idUser;
           let url_string = document.URL;
           let url = new URL(url_string);
-          let idUser = url.searchParams.get("idUser");
-          
+          let idUserParam = url.searchParams.get("idUser");
           let idUserSess = <?= $_SESSION['loggedUser']['idUser'] ?>;
-    
-          GetUserData(idUser == null ? idUserSess : idUser);
+          
+          if (idUserParam != null) {
+            idUser = idUserParam;
+          } else if (idUserSess != null) {
+            idUser = idUserSess
+          } else {
+            idUser = null;
+          }
+
+          GetUserData(idUser);
         });
   </script>
 
