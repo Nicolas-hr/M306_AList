@@ -49,12 +49,13 @@ function Login($mail, $password) {
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ REGISTER FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /**
- * function for user registration in database
+ * @author Thomas Fujise
+ * 
+ * @brief function for user registration in database
  *
- * @param [string] $nickname
- * @param [string] $email
- * @param [string] $pwd
- * @return void
+ * @param string $nickname
+ * @param string $mail
+ * @param string $pwd
  */
 function registerUser($nickname, $email, $pwd, $logo = "logo.png", $activated = 0, $role = 1)
 {
@@ -76,7 +77,11 @@ function registerUser($nickname, $email, $pwd, $logo = "logo.png", $activated = 
 }
 
 /**
- * Function for email token verification
+ * @author Thomas Fujise
+ * 
+ * @brief function for email token verification
+ *
+ * @param string $token user's token for activation
  * @return int id user else false
  */
 function verifyToken($token){
@@ -95,7 +100,11 @@ function verifyToken($token){
 }
 
 /**
- * Function for account activation
+ * @author Thomas Fujise
+ * 
+ * @brief function for account activation
+ *
+ * @param integer $id user id
  */
 function activateAccount($id){
     $sql = "UPDATE t_user SET ACTIVATED = 1 WHERE idUser = :idUser";

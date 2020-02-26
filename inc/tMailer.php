@@ -32,7 +32,7 @@ class TMailer{
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
                     </head>
                     <body>
-                        <img src="{../img/welcome.gif}" alt="Welcome Gif">
+                        <img src="cid:https://pngimage.net/wp-content/uploads/2018/06/welcome-png-images-4.png" alt="Welcome Gif">
                         <h1>Hi {$nickname}</h1>
                         <p>Welcome to Alist, </br> Please confirm that <b>{$mailUser[0]}</b> is your email adress by clicking on the button below or use this link : <a href="localhost/M306_Alist/verified.php?token={$token}">Verify</a> within 24 hours.</p>                       
                         <a href="localhost/M306_Alist/verified.php?token={$token}" class="form-control btn btn-outline-primary">Account Activation</a>
