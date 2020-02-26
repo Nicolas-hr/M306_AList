@@ -22,14 +22,14 @@ WHERE u.idUser = :idUser
 EOT;
 
 try {
-  $requestGetUser = EDatabase::prepare($query);
+  $requestGetUser = EDatabase::getDb()->prepare($query);
   $requestGetUser->bindParam(':idUser', $idUser, PDO::PARAM_INT);
   $requestGetUser->execute();
 
   $data['userData'] = $requestGetUser->fetch(PDO::FETCH_ASSOC);
 
-  $requestGetLibrary = EDatabase::prepare($query2);
-  $requestGetLibrary->bindParam();
+  $requestGetLibrary = EDatabase::getDb()->prepare($query2);
+  $requestGetLibrary->bindParam(':idUser', $idUser, PDO::PARAM_INT);
   $requestGetLibrary->execute();
 
   $data['libraryData'] = $requestGetLibrary->fetch(PDO::FETCH_ASSOC);

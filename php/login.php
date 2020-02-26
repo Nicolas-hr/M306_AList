@@ -8,7 +8,7 @@ $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
 if (strlen($email) > 0 && strlen($password) > 0) {
     $loggedUser = Login($email, $password);
 
-  if ($loggedUser !== null) {
+  if ($loggedUser !== null || $loggedUser == false) {
     $_SESSION["loggedUser"] = $loggedUser;
     $_SESSION['loggedIn'] = true;
 

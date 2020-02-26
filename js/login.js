@@ -12,7 +12,7 @@ function Login(event) {
   let password = $("#password").val();
 
   // processing
-  if (username.length == 0) {
+  if (email.length == 0) {
     $("#email").css("border-color", "red");
     $("#email").focus();
     return;
@@ -30,7 +30,7 @@ function Login(event) {
 
   $.ajax({
     type: "post",
-    url: "./lib/register.php",
+    url: "./php/login.php",
     data: { email: email, password: password },
     dataType: "json",
     success: response => {

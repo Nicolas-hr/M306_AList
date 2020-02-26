@@ -14,7 +14,7 @@ WHERE a.idAnime = idAnime AND u.idUser = :idUser
 EOT;
 
 try {
-  $requestGetAnime = EDatabase::prepare($query);
+  $requestGetAnime = EDatabase::getDb()->prepare($query);
   $requestGetAnime->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
   $requestGetAnime->bindParam(':idUser', $idUser, PDO::PARAM_INT);
   $requestGetAnime->execute();
