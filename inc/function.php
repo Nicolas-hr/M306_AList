@@ -73,7 +73,7 @@ function registerUser($nickname, $email, $pwd, $logo = "logo.png", $activated = 
     $req->bindParam(':activated', $activated, \PDO::PARAM_INT);
     $req->bindParam(':role', $role, \PDO::PARAM_INT);
     $req->execute();
-    $send = TMailer::sendMail(array($email),$nickname, $token);
+    //$send = TMailer::sendMail(array($email),$nickname, $token);
 }
 
 /**
