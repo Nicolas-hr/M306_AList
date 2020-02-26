@@ -34,7 +34,7 @@ function Login(event) {
     data: { email: email, password: password },
     dataType: "json",
     success: response => {
-      window.location.href = "./index.php";
+      window.location.href = "./profile.php";
     },
     error: () => {}
   });

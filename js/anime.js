@@ -9,7 +9,7 @@ function GetAnimeData() {
 
   $.ajax({
     type: "post",
-    url: "./lib/getAnime.php",
+    url: "./php/getAnime.php",
     data: { idAnime: idAnime },
     dataType: "json",
     success: data => {

@@ -1,6 +1,8 @@
 <?php
 require_once '../inc/function.php';
 
+session_start();
+
 // Initialisation
 $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_STRING);
 $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);

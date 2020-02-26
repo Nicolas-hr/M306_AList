@@ -1,16 +1,12 @@
 <?php
 require_once '../inc/dbConnect.php';
 
-$userId = filter_var($_POST['idUser'], FILTER_SANITIZE_NUMBER_INT);
-
-$data = array();
+$idUser = filter_var($_POST['idUser'], FILTER_SANITIZE_NUMBER_INT);
 
 $query = <<<EOT
-SELECT u.username, u.email, u.logo, 
+SELECT u.username, u.email, u.logo
 FROM t_user AS u
-JOIN t_library AS l ON u.idUser = l.idUser
-JOIN t_anime AS a ON a.idAnime = l.idAnime
-WHERE idUser = :idUser
+WHERE u.idUser = :idUser
 EOT;
 
 $query2 = <<<EOT
@@ -29,12 +25,12 @@ try {
   $data['userData'] = $requestGetUser->fetch(PDO::FETCH_ASSOC);
 
   $requestGetLibrary = EDatabase::getDb()->prepare($query2);
-  $requestGetLibrary->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+    $requestGetLibrary->bindParam(':idUser', $idUser, PDO::PARAM_INT);
   $requestGetLibrary->execute();
 
-  $data['libraryData'] = $requestGetLibrary->fetch(PDO::FETCH_ASSOC);
+  $data['libraryData'] = $requestGetLibrary->fetchAll(PDO::FETCH_ASSOC);
 
-  echo json_encode(count($data['userData']) > 0 && count($data['libraryData']) > 0 ? $data : null);
+  echo json_encode(count($data['userData']) > 0 ? $data : null);
 } catch (Exception $e) {
   $e->getMessage('Error while login', $e::getMessage());
 

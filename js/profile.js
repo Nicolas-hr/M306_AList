@@ -1,15 +1,7 @@
-$(document).ready(() => {
-  GetUserData();
-});
-
-function GetUserData() {
-  let url_string = document.URL;
-  let url = new URL(url_string);
-  let idUser = url.searchParams.get("idUser");
-
+function GetUserData(idUser) {
   $.ajax({
     type: "post",
-    url: "./lib/getProfile.php",
+    url: "./php/getProfile.php",
     data: { idUser: idUser },
     dataType: "json",
     success: data => {
@@ -24,7 +16,7 @@ function ShowProfil(data) {
 
   let html =
     '<div id="container">' +
-      '<img src="' + userData.logo + '" alt="userProfilePicture" height="35" width="35">' + userData.useranme +
+      '<img src="./assets/img/' + userData.logo + '" alt="userProfilePicture" height="35" width="35"> ' + userData.username +
       '<div calss="container">' +
         '<table id="animeTable">' +
           "<tr>" +
