@@ -6,6 +6,10 @@
 *     Brief               :  Login page for user.
 *     Starting Date       :  05.02.2020.
 */
+
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +26,7 @@
 </head>
 
 <body>
-  <?php include './inc/navbar.inc.html'; ?>
+  <?php include './inc/navbar.inc.php'; ?>
   <div id="loginForm">
     <div class="container">
       <div class="row justify-content-center mt-4">
