@@ -6,9 +6,6 @@
 *     Brief               :  User page.
 *     Starting Date       :  19.02.2020.
 */
-
-require_once $_SERVER['DOCUMENT_ROOT'] . '/M306_Alist/inc/function.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
