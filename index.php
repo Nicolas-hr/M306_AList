@@ -32,7 +32,7 @@ if (session_status() == PHP_SESSION_NONE) {
 </head>
 
 <body>
-  <?php include './inc/navbar.inc.html'; ?>
+  <?php include './inc/navbar.inc.php'; ?>
 
   <main role="main">
     <div class="">

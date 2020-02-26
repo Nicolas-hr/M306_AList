@@ -84,8 +84,9 @@ if ($register)
     <title>Home</title>
 </head>
 <body>
-<?php
-    include "./form/registerForm.php";
+<?php 
+include './inc/navbar.inc.php';
+include "./form/registerForm.php";
 ?>
 
 </body>
