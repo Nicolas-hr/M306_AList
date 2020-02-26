@@ -22,6 +22,7 @@
 </head>
 
 <body>
+  <?php include './inc/navbar.inc.html'; ?>
   <div id="loginForm">
     <div class="container">
       <div class="row justify-content-center mt-4">
