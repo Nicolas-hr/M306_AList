@@ -183,9 +183,9 @@ function GetUserData(int $userId)
  */
 function ShowAllAnime() {
   $sql = <<<EX
-  SELECT idAnime, name, avgNote, addDate, cover, description 
-  FROM t_anime
-  EX;
+SELECT idAnime, name, avgNote, addDate, cover, description 
+FROM t_anime
+EX;
   try {
     $req = EDatabase::getDb()->prepare($sql);
     $req->execute();
@@ -196,27 +196,27 @@ function ShowAllAnime() {
     return null;
   }
   $message = <<<EOT
-  <div class="row mx-auto" style="width: 80%;" >
-  EOT;
+<div class="row mx-auto" style="width: 80%;" >
+EOT;
   for($i = 0; $i<count($animes);$i++){
     $cover = GetCoverAnime($animes[$i]['idAnime']);
     $message .= <<<EOT
-    <div class="col-md-4">
-    <h2>{$animes[$i]['name']}</h2>
-    <p><img src="data:image/bmp;base64,{$cover}"/></p><p>{$animes[$i]['description']}</p>
-    <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-    </div>
-    EOT;
+<div class="col-md-4">
+<h2>{$animes[$i]['name']}</h2>
+<p><img src="data:image/bmp;base64,{$cover}"/></p><p>{$animes[$i]['description']}</p>
+<p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+</div>
+EOT;
     if(($i+1)%3==0){
       $message .= <<<EOT
-      </div>
-      <div class="row mx-auto" style="width: 80%;">
-      EOT;
+</div>
+<div class="row mx-auto" style="width: 80%;">
+EOT;
     }
   }
   $message .= <<<EOT
-  </div>
-  EOT;
+</div>
+EOT;
   return $message;
 }
 /**
@@ -229,16 +229,16 @@ function ShowAllAnime() {
  */
 function GetCoverAnime($idAnime){
   $sql = <<<EOT
-  SELECT cover FROM t_anime WHERE idAnime = :idAnime
-  EOT;
+SELECT cover FROM t_anime WHERE idAnime = :idAnime
+EOT;
   try{
-  $req = EDatabase::getDB()->prepare($sql);
-  $req->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
-  $req->execute();
-  $result = $req->fetchAll();
-  return  base64_encode($result[0]['cover']);
-}catch(PDOException $e){
-  $e->getMessage('Error while login', $e->getMessage());
-  return null;
-}
+    $req = EDatabase::getDB()->prepare($sql);
+    $req->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
+    $req->execute();
+    $result = $req->fetchAll();
+    return  base64_encode($result[0]['cover']);
+  } catch(PDOException $e){
+    $e->getMessage('Error while login', $e->getMessage());
+    return null;
+  }
 }
