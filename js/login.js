@@ -2,6 +2,12 @@ $(document).ready(() => {
   $("#btnLogUser").click(Login);
 });
 
+/**
+ * @author Hoarau Nicoals
+ * 
+ * @brief send log data with an ajax call
+ * @param {event} event on click event
+ */
 function Login(event) {
   if (event) {
     event.preventDefault();

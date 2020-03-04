@@ -2,6 +2,10 @@ $(document).ready(() => {
   GetAnimeData();
 });
 
+/**
+ * @author Hoarau Nicolas
+ * @brief Get the anime data
+ */
 function GetAnimeData() {
   let url_string = document.URL;
   let url = new URL(url_string);
@@ -18,6 +22,12 @@ function GetAnimeData() {
   });
 }
 
+/**
+ * @author Hoarau Nicolas
+ * @brief Show a specific anime
+ * 
+ * @param {array} data anime data
+ */
 function ShowAnime(data) {
   let html =
     '<div class="container">' +
