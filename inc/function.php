@@ -155,14 +155,33 @@ function GetAllAnime() {
     $req = EDatabase::getDb()->prepare($sql);
     $req->execute();
     $animes = $req->fetchAll(PDO::FETCH_ASSOC);
-    return count($animes) > 0 ? $animes : null;
+    var_dump($animes);
+   // return count($animes) > 0 ? $animes : null;
   }
   catch (PDOException $e) {
     $e->getMessage('Error while login', $e->getMessage());
     return null;
   }
-  $message .= "<div class='row'>";
-  foreach ($animes as $key => $anime){
-          $message
+  $message = "<div class='row'>";
+
+  for($i = 0; $i<count($animes);$i++){
+
+    $message .= <<<EOT
+    <div class="col-md-4">
+    <h2>{$animes[$i]['name']}</h2>
+    <p>{$animes[$i]['description']}</p>
+    <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+    </div>
+    EOT;
+    if(($i+1)%3==0){
+      $message .= <<<EOT
+      </div>
+      <div class='row'>
+      EOT;
+    }
   }
+  $message .= <<<EOT
+  </div>
+  EOT;
+  return $message;
 }

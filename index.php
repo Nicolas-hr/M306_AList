@@ -7,8 +7,8 @@
 *     Starting Date       :  23.01.2020.
 */
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/M152/M152_Project/inc/dbConnect.php';
-require_once $_SERVER['DOCUMENT_ROOT']. '/M152/M152_Project/inc/function.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/M306_Alist/inc/dbConnect.php';;
+require_once $_SERVER['DOCUMENT_ROOT']. '/M306_Alist/inc/function.php';
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -41,11 +41,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
       <div class="container">
 
-      <?php
-      foreach (GetAllAnime() as $key => $anime){
-          
-      }
-      ?>
+      <?= GetAllAnime();?>
         <div class="row">
           <div class="col-md-4">
             <h2>Anime#1</h2>
