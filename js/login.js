@@ -34,8 +34,14 @@ function Login(event) {
     data: { email: email, password: password },
     dataType: "json",
     success: response => {
-      window.location.href = "./profile.php";
-    },
-    error: () => {}
+      switch (response.ReturnCode) {
+        case 0:
+          window.location.href = "./profile.php";
+          break;
+        case 1:
+          $('#error').text(response.Error);
+          break;
+      }
+    }
   });
 }
