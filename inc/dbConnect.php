@@ -6,7 +6,7 @@
 *     Brief               :  Object Edatabase for database connection.
 *     Starting Date       :  05.02.2020.
 */
-require_once $_SERVER['DOCUMENT_ROOT'].'/M306_Alist/config/config.php';
+require_once dirname(__DIR__).'/config/config.php';
 /**
  * Object EDatabase
  */

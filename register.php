@@ -7,8 +7,8 @@
 *     Starting Date       :  05.02.2020.
 */
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/M306_Alist/inc/dbConnect.php';
-require_once $_SERVER['DOCUMENT_ROOT']. '/M306_Alist/inc/function.php';
+require_once __DIR__.'/inc/dbConnect.php';
+require_once __DIR__.'/inc/function.php';
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -84,8 +84,9 @@ if ($register)
     <title>Home</title>
 </head>
 <body>
-<?php
-    include "./form/registerForm.php";
+<?php 
+include './inc/navbar.inc.php';
+include "./form/registerForm.php";
 ?>
 
 </body>

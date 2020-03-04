@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/M306_Alist/inc/function.php';
+require_once __DIR__.'/inc/function.php';
 $token = $_GET['token'];
 if(verifyToken($token) != false){
     activateAccount(verifyToken($token));

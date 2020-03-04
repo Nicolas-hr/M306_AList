@@ -7,10 +7,22 @@
 *     Starting Date       :  05.02.2020.
 */
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/M306_Alist/inc/dbConnect.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/M306_Alist/inc/tMailer.php';
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOGIN FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+require_once __DIR__.'/dbConnect.php';
+require_once __DIR__.'/tMailer.php';
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOGGED FUNCTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/**
+ * @author Hoarau Nicolas
+ * 
+ * Check if the user is logged
+ * 
+ * @return bool
+ */
+function IsLogged() {
+  return array_key_exists('loggedIn', $_SESSION) && $_SESSION['loggedIn'];
+}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOGIN FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /**
  * @author Hoarau Nicolas
  * 
@@ -145,6 +157,7 @@ function GetUserData(int $userId) {
     return null;
   }
 }
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ HOME DISPLAY FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function GetAllAnime() {
   $sql = <<<EX
