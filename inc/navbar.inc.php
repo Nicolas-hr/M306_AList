@@ -10,15 +10,19 @@
       <li class="nav-item active">
         <a class="nav-link" href="./index.php">Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="./profile.php">Profile</a>
-      </li>
       <?php if(!IsLogged()){ ?>
       <li class="nav-item">
         <a class="nav-link" href="./login.php">Login</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="./register.php">Register</a>
+      </li>
+      <?php } else { ?>
+        <li class="nav-item">
+        <a class="nav-link" href="./profile.php">Profile</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="./logout.php">Déconexion</a>
       </li>
       <?php } ?>
     </ul>

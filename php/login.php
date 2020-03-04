@@ -1,8 +1,9 @@
 <?php
 require_once '../inc/function.php';
 
-session_start();
-
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
 // Initialisation
 $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_STRING);
 $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
@@ -10,7 +11,7 @@ $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
 if (strlen($email) > 0 && strlen($password) > 0) {
     $loggedUser = Login($email, $password);
 
-  if ($loggedUser !== null || $loggedUser == false) {
+  if ($loggedUser != null || $loggedUser == false) {
     $_SESSION["loggedUser"] = $loggedUser;
     $_SESSION['loggedIn'] = true;
 
@@ -25,4 +26,5 @@ if (strlen($email) > 0 && strlen($password) > 0) {
     'ReturnCode' => 2,
     'Error' => "Username/Password invalid"
   ]);
+  exit();
 }
