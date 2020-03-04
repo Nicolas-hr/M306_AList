@@ -204,7 +204,7 @@ function ShowAllAnime() {
     <div class="col-md-4">
     <h2>{$animes[$i]['name']}</h2>
     <p><img src="data:image/bmp;base64,{$cover}"/></p><p>{$animes[$i]['description']}</p>
-    <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+    <p><a class="btn btn-secondary" href="anime.php?idAnime={$animes[$i]['idAnime']}" role="button">View details &raquo;</a></p>
     </div>
     EOT;
     if(($i+1)%3==0){
