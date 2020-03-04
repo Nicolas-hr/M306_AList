@@ -22,6 +22,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+  <link rel="stylesheet" href="./css/style.css">
   <title>Login</title>
 </head>
 
@@ -49,6 +50,7 @@ if (session_status() == PHP_SESSION_NONE) {
                       <label for="emailStagiaire">Password :</label>
                       <input type="password" class="form-control" id="password" placeholder="******" name="password" required>
                     </div>
+                    <p id="error"></p>
                   </div>
                   <div class="form-group">
                     <laSbel>&nbsp;</laSbel>

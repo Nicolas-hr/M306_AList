@@ -64,7 +64,7 @@ function Login($mail, $password)
 
     $result = $requestLogin->fetch(PDO::FETCH_ASSOC);
 
-    return $result != false ? $result : null;
+    return $result != false ? $result : false;
   } catch (PDOException $e) {
     $e->getMessage('Error while login', $e::getMessage());
 
