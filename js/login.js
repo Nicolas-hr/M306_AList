@@ -42,7 +42,7 @@ function Login(event) {
     success: response => {
       switch (response.ReturnCode) {
         case 0:
-          window.location.href = "./profile.php";
+          window.location.href = "./index.php";
           break;
         case 1:
           $('#error').text(response.Error);
