@@ -1,3 +1,15 @@
+<?php
+require_once __DIR__ . '/inc/function.php';
+require_once __DIR__ . '/inc/frontend.php';
+
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
+
+$idAnime = isset($_GET['idAnime']) ? $_GET['idAnime'] : 1;
+$idUser = isset($_SESSION['loggedUser']['idUser']) ? $_SESSION['loggedUser']['idUser'] : null;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +24,10 @@
 </head>
 
 <body>
-  <div id="anime"></div>
+  <?php include './inc/navbar.inc.php'; ?>
+  <div id="anime">
+  <?php isset($_SESSION['loggedUser']['idUser']) ? ShowAnimeLogged(GetAnimeData($idAnime, $idUser)) : ShowAnimeNotLogged(GetAnimeData($idAnime));?>
+  </div>
 
   <!--    IMPORT BOOTSRAP   -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
@@ -21,7 +36,6 @@
   <!--    IMPORT JQUERY   -->
   <script src="https://code.jquery.com/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <script src="./js/anime.js"></script>
 </body>
 
 </html>

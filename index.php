@@ -7,7 +7,6 @@
 *     Starting Date       :  23.01.2020.
 */
 
-require_once __DIR__ . '/inc/dbConnect.php';
 require_once __DIR__ . '/inc/function.php';
 
 if (session_status() == PHP_SESSION_NONE) {
