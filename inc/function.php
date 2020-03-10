@@ -77,7 +77,7 @@ function Login($mail, $password)
  * @param string $mail
  * @param string $pwd
  */
-function registerUser($nickname, $email, $pwd, $logo = "logo.png", $activated = 0, $role = 1)
+function registerUser($nickname, $email, $pwd, $logo = "logo.png", $activated = 1, $role = 1)
 {
   //$sql = "INSERT INTO t_user(NICKNAME, EMAIL, ACTIVATION, STATE, PASSWORD,ROLE, EMAIL_TOKEN) VALUES(:nickname,:email,:activation,:state,:password,:role,:emailToken)";
   $sql = "INSERT INTO t_user(username, password, email, logo, email_token, activated, idRole) VALUES(:username, :password, :email, :logo, :emailToken, :activated, :role)";
@@ -131,34 +131,6 @@ function activateAccount($id)
   $req = EDatabase::getDb()->prepare($sql);
   $req->bindParam('idUser', $id[0], \PDO::PARAM_INT);
   $req->execute();
-}
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PROFILE FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/**
- * @author Nicolas Hoarau
- * 
- * @brief function for getting user data
- *
- * @param integer $userId user id
- * @return array || null
- */
-function GetUserData(int $userId)
-{
-  $query = "SELECT u.username, u.logo, l.note, l.dateWatched, a.name FROM t_user AS u JOIN t_library as l ON u.idUser = l.idUser JOIN t_anime as a ON l.idAnime = a.idAnime WHERE u.idUser = :idUser;";
-
-  try {
-    $requestUserData = EDatabase::getDb()->prepare($query);
-    $requestUserData->bindParam(':userPwd', $userId, PDO::PARAM_INT);
-    $requestUserData->execute();
-
-    $userData = $requestUserData->fetch(PDO::FETCH_ASSOC);
-
-    return count($userData) > 0 ? $userData : null;
-  } catch (PDOException $e) {
-    $e->getMessage('Error while login', $e::getMessage());
-
-    return null;
-  }
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ HOME DISPLAY FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -239,15 +211,15 @@ EOT;
  *
  * @param integer $idAnime
  * @param integer $idUser
- * @return array ||string
+ * @return array
  */
-function GetAnimeData(int $idAnime, int $idUser = null)
+function GetAnimeData(int $idAnime, int $idUser = null): array
 {
   if ($idUser != null) {
     $query = "SELECT a.name, a.avgNote, a.cover, a.description, 
         (SELECT note FROM t_library WHERE idUser = :idUser AND idAnime = :idAnime) AS userScore
       FROM t_anime AS a 
-      WHERE a.idAnime = :idAnime";
+      WHERE a.idAnime = :idAnime;";
 
     try {
       $requestGetAnime = EDatabase::getDb()->prepare($query);
@@ -260,7 +232,7 @@ function GetAnimeData(int $idAnime, int $idUser = null)
       $result['cover'] = base64_encode($result['cover']);
       return $result;
     } catch (PDOException $e) {
-      return $e->getMessage();
+      throw $e->getMessage();
     }
   } else {
     $query = "SELECT a.name, a.avgNote, a.cover, a.description FROM t_anime AS a WHERE a.idAnime = :idAnime";
@@ -274,7 +246,7 @@ function GetAnimeData(int $idAnime, int $idUser = null)
       $result['cover'] = base64_encode($result['cover']);
       return $result;
     } catch (PDOException $e) {
-      return $e->getMessage();
+      throw $e->getMessage();
     }
   }
 }
