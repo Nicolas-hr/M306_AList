@@ -39,7 +39,7 @@ function ShowAnimeLogged(array $data)
   echo '<div class="container"><div class="row">';
   echo '<div class="col col-sm-auto"><img src="data:image/jpeg;base64,' . $cover . '" alt="anime cover" height="200" width="150"></div>';
   echo '<div class="col col-lg-8"><br>' . $description . '</div>';
-  echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>';
+  echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Completed</button>';
   echo '<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">';
   echo '<div class="modal-dialog modal-lg"><div class="modal-content"><form>';
   echo '<div class="form-group">';

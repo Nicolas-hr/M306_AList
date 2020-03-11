@@ -251,16 +251,23 @@ function GetAnimeData(int $idAnime, int $idUser = null): array
   }
 }
 
-function UpdateAnimeAvgNote($idAnime, $avgNote){
-  $sql = "UPDATE t_anime SET avgNote = :avgNote WHERE idAnime = :idAnime";
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SCORE ANIME FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function AlredyScored(int $idAnime, int $idUser)
+{
+  try {
+    $query = <<<EOT
+SELECT note FROM t_library WHERE idAnime = :idAnime AND idUser = :idUser;
+EOT;
 
-  try{
-    $req = EDatabase::getDb()->prepare($sql);
-    $req->bindParam(':avgNote', $avgNote);
-    $req->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
-    $req->execute();
-  }
-  catch (PDOException $e){
-    throw $e->getMessage();
+    $getAnimeScore = EDatabase::getDb()->prepare($query);
+    $getAnimeScore->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
+    $getAnimeScore->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+    $getAnimeScore->execute();
+
+    $result = $getAnimeScore->fetch(PDO::FETCH_ASSOC);
+
+    return count($result) == 1 ? true : false;
+  } catch (Exception $e) {
+    throw $e;
   }
 }
