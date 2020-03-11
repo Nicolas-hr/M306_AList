@@ -266,7 +266,7 @@ EOT;
 
     $result = $getAnimeScore->fetch(PDO::FETCH_ASSOC);
 
-    return count($result) == 1 ? true : false;
+    return $result != false? true : false;
   } catch (Exception $e) {
     throw $e;
   }
