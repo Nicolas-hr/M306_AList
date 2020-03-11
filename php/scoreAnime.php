@@ -27,7 +27,7 @@ try {
   $updateAnimeScore->bindParam(':idUser', $idUser, PDO::PARAM_INT);
   $updateAnimeScore->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
   $updateAnimeScore->execute();
-
+  
   echo json_encode([
     'ReturnCode' => 0,
     'Success' => "Score updated correctly"

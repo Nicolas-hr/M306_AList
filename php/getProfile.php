@@ -25,7 +25,7 @@ try {
   $data['userData'] = $requestGetUser->fetch(PDO::FETCH_ASSOC);
 
   $requestGetLibrary = EDatabase::getDb()->prepare($query2);
-    $requestGetLibrary->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+  $requestGetLibrary->bindParam(':idUser', $idUser, PDO::PARAM_INT);
   $requestGetLibrary->execute();
 
   $data['libraryData'] = $requestGetLibrary->fetchAll(PDO::FETCH_ASSOC);
