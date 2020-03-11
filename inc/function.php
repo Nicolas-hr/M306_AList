@@ -250,3 +250,17 @@ function GetAnimeData(int $idAnime, int $idUser = null): array
     }
   }
 }
+
+function UpdateAnimeAvgNote($idAnime, $avgNote){
+  $sql = "UPDATE t_anime SET avgNote = :avgNote WHERE idAnime = :idAnime";
+
+  try{
+    $req = EDatabase::getDb()->prepare($sql);
+    $req->bindParam(':avgNote', $avgNote);
+    $req->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
+    $req->execute();
+  }
+  catch (PDOException $e){
+    throw $e->getMessage();
+  }
+}
