@@ -1,3 +1,9 @@
+/**
+ * @author Hoarau Nicolas
+ * @brief Get the user data
+ * 
+ * @param {int} idUser user id
+ */
 function GetUserData(idUser) {
   $.ajax({
     type: "post",
@@ -5,13 +11,18 @@ function GetUserData(idUser) {
     data: { idUser: idUser },
     dataType: "json",
     success: data => {
-      console.log(data);
-
       ShowProfil(data);
     }
   });
 }
 
+/**
+ * @author Hoarau Nicolas
+ * 
+ * @brief Show the data et from the function GetUserData
+ * 
+ * @param {array} data user data and his library
+ */
 function ShowProfil(data) {
   let userData = data.userData;
   let animeData = data.animeData;

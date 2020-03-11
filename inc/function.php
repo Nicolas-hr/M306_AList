@@ -47,12 +47,7 @@ function IsLogged()
  */
 function Login($mail, $password)
 {
-  $query = "
-  SELECT idUser, email, username
-  FROM t_user
-  WHERE email = :email 
-  AND password = :userPwd
-  ";
+  $query = "SELECT idUser, email, username FROM t_user WHERE email = :email  AND password = :userPwd";
 
   $password = sha1($mail . $password);
 
@@ -82,12 +77,11 @@ function Login($mail, $password)
  * @param string $mail
  * @param string $pwd
  */
-function registerUser($nickname, $email, $pwd, $logo = "logo.png", $activated = 0, $role = 1)
+function registerUser($nickname, $email, $pwd, $logo = "logo.png", $activated = 1, $role = 1)
 {
   //$sql = "INSERT INTO t_user(NICKNAME, EMAIL, ACTIVATION, STATE, PASSWORD,ROLE, EMAIL_TOKEN) VALUES(:nickname,:email,:activation,:state,:password,:role,:emailToken)";
-  $sql = "
-        INSERT INTO t_user(username, password, email, logo, email_token, activated, idRole) VALUES(:username, :password, :email, :logo, :emailToken, :activated, :role)
-    ";
+  $sql = "INSERT INTO t_user(username, password, email, logo, email_token, activated, idRole) VALUES(:username, :password, :email, :logo, :emailToken, :activated, :role)";
+
   $req = EDatabase::getDb()->prepare($sql);
   $token = sha1($email . microtime());
   $req->bindParam(':username', $nickname, \PDO::PARAM_STR);
@@ -139,40 +133,6 @@ function activateAccount($id)
   $req->execute();
 }
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PROFILE FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/**
- * @author Nicolas Hoarau
- * 
- * @brief function for getting user data
- *
- * @param integer $userId user id
- * @return array || null
- */
-function GetUserData(int $userId)
-{
-  $query = "
-  SELECT u.username, u.logo, l.note, l.dateWatched, a.name
-  FROM t_user AS u
-  JOIN t_library as l ON u.idUser = l.idUser
-  JOIN t_anime as a ON l.idAnime = a.idAnime
-  WHERE u.idUser = :idUser 
-  ";
-
-  try {
-    $requestUserData = EDatabase::getDb()->prepare($query);
-    $requestUserData->bindParam(':userPwd', $userId, PDO::PARAM_INT);
-    $requestUserData->execute();
-
-    $userData = $requestUserData->fetch(PDO::FETCH_ASSOC);
-
-    return count($userData) > 0 ? $userData : null;
-  } catch (PDOException $e) {
-    $e->getMessage('Error while login', $e::getMessage());
-
-    return null;
-  }
-}
-
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ HOME DISPLAY FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /**
  * @author Thomas Fujise
@@ -181,7 +141,8 @@ function GetUserData(int $userId)
  *
  * @return string html to display in index page
  */
-function ShowAllAnime() {
+function ShowAllAnime()
+{
   $sql = <<<EX
 SELECT idAnime, name, avgNote, addDate, cover, description 
 FROM t_anime
@@ -190,24 +151,23 @@ EX;
     $req = EDatabase::getDb()->prepare($sql);
     $req->execute();
     $animes = $req->fetchAll(PDO::FETCH_ASSOC);
-  }
-  catch (PDOException $e) {
+  } catch (PDOException $e) {
     $e->getMessage('Error while login', $e->getMessage());
     return null;
   }
   $message = <<<EOT
 <div class="row mx-auto" style="width: 80%;" >
 EOT;
-  for($i = 0; $i<count($animes);$i++){
+  for ($i = 0; $i < count($animes); $i++) {
     $cover = GetCoverAnime($animes[$i]['idAnime']);
     $message .= <<<EOT
 <div class="col-md-4">
 <h2>{$animes[$i]['name']}</h2>
 <p><img src="data:image/bmp;base64,{$cover}"/></p><p>{$animes[$i]['description']}</p>
-<p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+<p><a class="btn btn-secondary" href="./anime.php?idAnime={$animes[$i]['idAnime']}" role="button">View details &raquo;</a></p>
 </div>
 EOT;
-    if(($i+1)%3==0){
+    if (($i + 1) % 3 == 0) {
       $message .= <<<EOT
 </div>
 <div class="row mx-auto" style="width: 80%;">
@@ -227,18 +187,66 @@ EOT;
  * @param int id anime
  * @return string html to display in index page
  */
-function GetCoverAnime($idAnime){
+function GetCoverAnime($idAnime)
+{
   $sql = <<<EOT
 SELECT cover FROM t_anime WHERE idAnime = :idAnime
 EOT;
-  try{
+  try {
     $req = EDatabase::getDB()->prepare($sql);
     $req->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
     $req->execute();
     $result = $req->fetchAll();
     return  base64_encode($result[0]['cover']);
-  } catch(PDOException $e){
+  } catch (PDOException $e) {
     $e->getMessage('Error while login', $e->getMessage());
     return null;
+  }
+}
+
+/**
+ * @author Hoarau Nicolas
+ * 
+ * @brief Get anime data from database with the id of the anime and is an user id is gave get users score too
+ *
+ * @param integer $idAnime
+ * @param integer $idUser
+ * @return array
+ */
+function GetAnimeData(int $idAnime, int $idUser = null): array
+{
+  if ($idUser != null) {
+    $query = "SELECT a.name, a.avgNote, a.cover, a.description, 
+        (SELECT note FROM t_library WHERE idUser = :idUser AND idAnime = :idAnime) AS userScore
+      FROM t_anime AS a 
+      WHERE a.idAnime = :idAnime;";
+
+    try {
+      $requestGetAnime = EDatabase::getDb()->prepare($query);
+      $requestGetAnime->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
+      $requestGetAnime->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $requestGetAnime->execute();
+
+      $result = $requestGetAnime->fetch(PDO::FETCH_ASSOC);
+
+      $result['cover'] = base64_encode($result['cover']);
+      return $result;
+    } catch (PDOException $e) {
+      throw $e->getMessage();
+    }
+  } else {
+    $query = "SELECT a.name, a.avgNote, a.cover, a.description FROM t_anime AS a WHERE a.idAnime = :idAnime";
+
+    try {
+      $requestGetAnime = EDatabase::getDb()->prepare($query);
+      $requestGetAnime->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
+      $requestGetAnime->execute();
+
+      $result = $requestGetAnime->fetch(PDO::FETCH_ASSOC);
+      $result['cover'] = base64_encode($result['cover']);
+      return $result;
+    } catch (PDOException $e) {
+      throw $e->getMessage();
+    }
   }
 }

@@ -1,47 +1,23 @@
-$(document).ready(() => {
-  GetAnimeData();
-});
+function SendNote(score, event) {
+  if (event) {
+    event.preventDefault();
+  }
 
-function GetAnimeData() {
   let url_string = document.URL;
   let url = new URL(url_string);
   let idAnime = url.searchParams.get("idAnime");
-
+  let date = new Date($("#dateWatched").val());
+  
   $.ajax({
     type: "post",
-    url: "./php/getAnime.php",
-    data: { idAnime: idAnime },
+    url: "./php/scoreAnime.php",
+    data: {score: score, idAnime: idAnime}, dateWatched: date,
     dataType: "json",
-    success: data => {
-      ShowAnime(data);
+    success: (response) => {
+      window.location.reload();
+    },
+    error: err => {
+      console.log(err);
     }
   });
-}
-
-function ShowAnime(data) {
-  let html =
-    '<div class="container">' +
-      '<div class="row">' +
-        '<div class="col col-sm-auto">' +
-          '<img src="' + data.cover + '" alt="anime cover" height="200" width="150">' +
-        "</div>" +
-        '<div class="col col-lg-10">' +
-          "<br>" +
-          data.descritpion +
-        "</div>" +
-      "</div>" +
-      "<br>" +
-      "<table>" +
-        "<tr>" +
-          "<th>My Score</th>" +
-          "<th>Score Average</th>" +
-        "</tr>" +
-        "<tr>" +
-          "<td>" + data.userScore + "</td>" +
-          "<td>" + data.avgScore + "</td>" +
-        "</tr>" +
-      "</table>" +
-    "</div>";
-
-    $('#anime').html(html);
 }
