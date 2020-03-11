@@ -6,27 +6,26 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 $score = filter_var($_POST['score'], FILTER_SANITIZE_NUMBER_INT);
-$userId = $_SESSION['loggedUser']['idUser'];
+$idAnime = filter_var($_POST['idAnime'], FILTER_SANITIZE_NUMBER_INT);
+$idUser = $_SESSION['loggedUser']['idUser'];
 
 $query = <<<EOT
-UPDATE t_library SET note = :note WHERE idUser = :idUser AND idAnime = :idAnime;
+INSERT INTO  t_library (NOTE, idUser, idAnime) VALUES (:note, :idUser,:idAnime);
 EOT;
 
 try {
-  EDatabase::beginTransaction();
-
   $updateAnimeScore = EDatabase::getDb()->prepare($query);
-  $requestGetUser->bindParam(':idUser', $idUser, PDO::PARAM_INT);
-  $requestGetUser->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
-  $requestGetUser->execute();
 
-  EDatabase::commit();
+  $updateAnimeScore->bindParam(':note', $score, PDO::PARAM_INT);
+  $updateAnimeScore->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+  $updateAnimeScore->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
+  $updateAnimeScore->execute();
+
   echo json_encode([
     'ReturnCode' => 0,
     'Success' => "Score updated correctly"
   ]);
   exit();
 } catch (Exception $e) {
-  EDatabase::rollBack();
   throw $e->getMessage();
 }

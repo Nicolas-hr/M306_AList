@@ -56,9 +56,10 @@ function ShowAnimeLogged(array $data)
   echo '<option value="9">9</option>';
   echo '<option value="10">10</option>';
   echo '</select></div>';
+  echo '<input type="date" id="dateWatched">';
   echo '<div class="modal-footer">';
   echo '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
-  echo '<button type="button" class="btn btn-primary" onclick="SendNote($(\'#score option:selected\').text())">Send message</button>';
+  echo '<button type="button" class="btn btn-primary" onclick="SendNote($(\'#score option:selected\').text())">Validate</button>';
   echo '</div></form></div></div></div></div><br>';
   echo '<table><tr>';
   echo '<th>My Score</th>';
