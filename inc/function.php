@@ -250,3 +250,24 @@ function GetAnimeData(int $idAnime, int $idUser = null): array
     }
   }
 }
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SCORE ANIME FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function AlredyScored(int $idAnime, int $idUser)
+{
+  try {
+    $query = <<<EOT
+SELECT note FROM t_library WHERE idAnime = :idAnime AND idUser = :idUser;
+EOT;
+
+    $getAnimeScore = EDatabase::getDb()->prepare($query);
+    $getAnimeScore->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
+    $getAnimeScore->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+    $getAnimeScore->execute();
+
+    $result = $getAnimeScore->fetch(PDO::FETCH_ASSOC);
+
+    return count($result) == 1 ? true : false;
+  } catch (Exception $e) {
+    throw $e;
+  }
+}
