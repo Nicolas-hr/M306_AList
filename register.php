@@ -1,6 +1,6 @@
 <?php
 /*
-*     Author              :  Fujise Thomas.
+*     Author              :  Fujise Thomas & Hoarau Nicolas.
 *     Project             :  AList.
 *     Page                :  Register.php.
 *     Brief               :  Register page for user.
@@ -57,12 +57,6 @@ if ($register) {
         echo "PWDDD";
     }
 
-
-    // Check if account already exist with this email
-    /* if (verifyEmail($emailUser))
-     {
-         $error["email"] = "Mail already use";
-     }*/
     //Check if both password are the same
     if ($pwdUser != $pwdUser2) {
         $error["password"] = "Both password are not the same";
