@@ -155,10 +155,17 @@ EX;
     $e->getMessage('Error while login', $e->getMessage());
     return null;
   }
+
   $message = <<<EOT
 <div class="row mx-auto" style="width: 80%;" >
 EOT;
   for ($i = 0; $i < count($animes); $i++) {
+    // filtrage des données de la bdd
+    $animes[$i]['idAnime'] = filter_var($animes[$i]['idAnime'], FILTER_SANITIZE_NUMBER_INT);
+    $animes[$i]['name'] = filter_var($animes[$i]['name'], FILTER_SANITIZE_STRING);
+    $animes[$i]['avgNote'] = filter_var($animes[$i]['avgNote'], FILTER_SANITIZE_NUMBER_INT);
+    $animes[$i]['description'] = filter_var($animes[$i]['description'], FILTER_SANITIZE_STRING);
+
     $cover = GetCoverAnime($animes[$i]['idAnime']);
     $message .= <<<EOT
 <div class="col-md-4">
@@ -229,7 +236,12 @@ function GetAnimeData(int $idAnime, int $idUser = null): array
 
       $result = $requestGetAnime->fetch(PDO::FETCH_ASSOC);
 
+      // filtrage des données de la bdd
+      $result['name'] = filter_var($result['name'], FILTER_SANITIZE_STRING);
+      $result['avgNote'] = filter_var($result['avgNote'], FILTER_SANITIZE_NUMBER_INT);
+      $result['description'] = filter_var($result['description'], FILTER_SANITIZE_STRING);
       $result['cover'] = base64_encode($result['cover']);
+
       return $result;
     } catch (PDOException $e) {
       throw $e->getMessage();
@@ -243,6 +255,7 @@ function GetAnimeData(int $idAnime, int $idUser = null): array
       $requestGetAnime->execute();
 
       $result = $requestGetAnime->fetch(PDO::FETCH_ASSOC);
+
       $result['cover'] = base64_encode($result['cover']);
       return $result;
     } catch (PDOException $e) {
