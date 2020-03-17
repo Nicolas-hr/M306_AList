@@ -5,15 +5,22 @@
  * @param {int} idUser user id
  */
 function GetUserData(idUser) {
-  $.ajax({
-    type: "post",
-    url: "./php/getProfile.php",
-    data: { idUser: idUser },
-    dataType: "json",
-    success: data => {
-      ShowProfil(data);
-    }
-  });
+  if (idUser != null) {
+    $.ajax({
+      type: "post",
+      url: "./php/getProfile.php",
+
+      data: { idUser: idUser },
+      success: (data) => {
+        ShowProfil(data);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  } else {
+    window.location.href = './index.php';
+  }
 }
 
 /**
@@ -25,30 +32,32 @@ function GetUserData(idUser) {
  */
 function ShowProfil(data) {
   let userData = data.userData;
-  let animeData = data.animeData;
+  let animeData = data.libraryData;
 
   let html =
-    `<div id="container">
+    `<div class="container">
     <img src="./assets/img/${userData.logo}" alt="userProfilePicture" height="35" width="35">
     ${userData.username}
-    <div calss="container">
+    <div class="container">
     <table id="animeTable">
     <tr>
     <th>Anime title</th>
     <th>Note</th>
     <th>Date watched</th>
     </tr>`;
-  $.each(animeData, (index, anime) => {
-    html += `<tr>
-      '<td>
-        <img src="${anime.cover}" alt="animeCover">
-        ${anime.title}
-      </td>
-      <td>
-      ${anime.note}
-      </td>
-      "</tr>`;
-  });
+
+    for (let i = 0; i < animeData.length; i++) {
+      const anime = animeData[i];
+      
+      html += `<tr>
+        <td>
+          ${anime.name}
+        </td>
+        <td>
+        ${anime.note}
+        </td>
+        </tr>`;
+    }
   html += `</table></div></div>`;
 
   $("#profil").html(html);

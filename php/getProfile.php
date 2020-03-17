@@ -1,6 +1,8 @@
 <?php
 require_once '../inc/dbConnect.php';
 
+header('Content-Type: application/json');
+
 $idUser = filter_var($_POST['idUser'], FILTER_SANITIZE_NUMBER_INT);
 
 $query = <<<EOT
@@ -10,7 +12,7 @@ WHERE u.idUser = :idUser
 EOT;
 
 $query2 = <<<EOT
-SELECT l.note, l.dateWatched, a.name, a.avgNote, a.addDate, a.cover, a.description
+SELECT l.note, l.dateWatched, a.name, a.avgNote, a.addDate, a.description
 FROM t_user AS u
 JOIN t_library AS l ON u.idUser = l.idUser
 JOIN t_anime AS a ON a.idAnime = l.idAnime
@@ -31,8 +33,7 @@ try {
   $data['libraryData'] = $requestGetLibrary->fetchAll(PDO::FETCH_ASSOC);
 
   echo json_encode(count($data['userData']) > 0 ? $data : null);
+  exit();
 } catch (Exception $e) {
-  $e->getMessage('Error while login', $e::getMessage());
-
-  return null;
+  echo json_encode($e->getMessage('Error while getting anime data', $e::getMessage()));
 }

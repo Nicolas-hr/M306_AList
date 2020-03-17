@@ -40,23 +40,23 @@ if (session_status() == PHP_SESSION_NONE) {
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <script src="./js/profile.js"></script>
   <script>
-        $(document).ready(() => {
-          let idUser;
-          let url_string = document.URL;
-          let url = new URL(url_string);
-          let idUserParam = url.searchParams.get("idUser");
-          let idUserSess = <?= $_SESSION['loggedUser']['idUser'] ?>;
-          
-          if (idUserParam != null) {
-            idUser = idUserParam;
-          } else if (idUserSess != null) {
-            idUser = idUserSess
-          } else {
-            idUser = null;
-          }
+    $(document).ready(() => {
+      let idUser;
+      let url_string = document.URL;
+      let url = new URL(url_string);
+      let idUserParam = url.searchParams.get("idUser");
+      let idUserSess = <?= $_SESSION['loggedUser']['idUser'] ?>;
 
-          GetUserData(idUser);
-        });
+      if (idUserParam != null) {
+        idUser = idUserParam;
+      } else if (idUserSess != null) {
+        idUser = idUserSess
+      } else {
+        idUser = null;
+      }
+
+      GetUserData(idUser);
+    });
   </script>
 
 </body>
