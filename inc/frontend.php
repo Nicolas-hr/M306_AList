@@ -68,5 +68,4 @@ function ShowAnimeLogged(array $data)
   echo '<td>' . $userScore . '</td>';
   echo '<td>' . $avgNote . '</td>';
   echo '</tr></table></div>';
-
 }

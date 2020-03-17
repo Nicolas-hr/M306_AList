@@ -3,7 +3,7 @@ $(document).ready(() => {
 });
 
 /**
- * @author Hoarau Nicoals
+ * @author Hoarau Nicolas
  * 
  * @brief send log data with an ajax call
  * @param {event} event on click event

@@ -1,4 +1,12 @@
-function SendNote(score, event) {
+/**
+ * @author Hoarau Nicolas
+ * 
+ * @brief Update score given to the anime in the database
+ * 
+ * @param {int} score score given to the anime
+ * @param {*} event 
+ */
+ function SendNote(score, event) {
   if (event) {
     event.preventDefault();
   }
@@ -16,7 +24,7 @@ function SendNote(score, event) {
     success: (response) => {
       switch (response.ReturnCode) {
         case 0:
-          window.location.reload();
+          CalculateScoreAvg(idAnime);
           break;
       case 1:
         alert(response.Error);
@@ -25,6 +33,35 @@ function SendNote(score, event) {
     },
     error: err => {
       console.log(err);
+    }
+  });
+}
+
+/**
+ * @author Hoarau Nicolas
+ * 
+ * @brief Update the score average of the anime
+ * 
+ * @param {int} idAnime id of the anime
+ */
+function CalculateScoreAvg(idAnime) {
+  $.ajax({
+    type: "post",
+    url: "./php/avgCalculator.php",
+    data: {idAnime: idAnime},
+    dataType: "json",
+    success: (response) => {
+      switch (response.ReturnCode) {
+        case 0:
+          window.location.reload();
+          break;
+      case 1:
+        alert(response.Error);
+        break;
+      }
+    },
+    error: (error) => {
+      console.log(error);
     }
   });
 }

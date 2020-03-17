@@ -312,16 +312,43 @@ EOT;
   }
 }
 
-function UpdateAnimeAvgNote($idAnime, $avgNote){
+function UpdateAnimeAvgNote(int $idAnime, int $avgNote) : bool
+{
   $sql = "UPDATE t_anime SET avgNote = :avgNote WHERE idAnime = :idAnime";
 
-  try{
+  try {
     $req = EDatabase::getDb()->prepare($sql);
     $req->bindParam(':avgNote', $avgNote);
     $req->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
     $req->execute();
+
+    return true;
+  } catch (PDOException $e) {
+    throw $e->getMessage();
   }
-  catch (PDOException $e){
+}
+
+/**
+ * @author Hoarau Nicolas
+ *
+ * Get all score of an anime
+ * 
+ * @param integer $idAnime
+ * @return array
+ */
+function GetAllScoreAnime(int $idAnime): array
+{
+  $query = "SELECT note FROM t_library WHERE idAnime = :idAnime;";
+
+  try {
+    $getAnimeScores = EDatabase::getDb()->prepare($query);
+    $getAnimeScores->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
+    $getAnimeScores->execute();
+
+    $result = $getAnimeScores->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+  } catch (Exception $e) {
     throw $e->getMessage();
   }
 }
