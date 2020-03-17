@@ -6,9 +6,14 @@
 *     Brief               :  Login page for user.
 *     Starting Date       :  05.02.2020.
 */
+require_once __DIR__ . '/inc/function.php';
 
 if (session_status() == PHP_SESSION_NONE) {
   session_start();
+}
+
+if (IsLogged()) {
+  header('Location: ./index.php');
 }
 ?>
 
