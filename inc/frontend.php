@@ -18,7 +18,7 @@ function ShowAnimeNotLogged(array $data)
   echo '<div class="row">';
   echo '<div class="col col-sm-auto"><img src="data:image/jpeg;base64,' . $cover . '" alt="anime cover" height="200" width="150">';
   echo '</div><div class="col col-lg-10"><br>' . $description . '</div></div><br>';
-  echo '<table><tr><th>My Score</th></tr><tr><td>' . $avgNote . '</td></tr></table></div>';
+  echo '<table><tr><th>Average Score</th></tr><tr><td>' . $avgNote . '</td></tr></table></div>';
 }
 
 /**
@@ -44,7 +44,7 @@ function ShowAnimeLogged(array $data)
   echo '<div class="modal-dialog modal-lg"><div class="modal-content"><form>';
   echo '<div class="form-group">';
   echo '<label class="col-form-label" for="score">Your score:</label>';
-  echo '<select id="score">';
+  echo '<select id="score" class="form-control">';
   echo '<option value="1">1</option>';
   echo '<option value="2">2</option>';
   echo '<option value="3">3</option>';
