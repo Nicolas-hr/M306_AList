@@ -155,7 +155,7 @@ EOT;
 
     $result = $checkMail->fetch(PDO::FETCH_ASSOC);
 
-    return false;
+    return $result == false ? $result : true;
   } catch (Exception $e) {
     throw $e->getMessage();
   }
