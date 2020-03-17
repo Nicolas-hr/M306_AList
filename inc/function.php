@@ -133,6 +133,33 @@ function activateAccount($id)
   $req->execute();
 }
 
+/**
+ * @author Hoarau Nicolas
+ * 
+ * @brief Check if the mail is already use
+ *
+ * @param string $mail
+ * @return boolean
+ */
+function MailAlreadyUsed(string $mail): bool
+{
+  $query = <<<EOT
+SELECT email FROM t_user WHERE email = :email;
+EOT;
+
+  try {
+    $checkMail = EDatabase::getDb()->prepare($query);
+
+    $checkMail->bindParam(':email', $mail, PDO::PARAM_STR);
+    $checkMail->execute();
+
+    $result = $checkMail->fetch(PDO::FETCH_ASSOC);
+
+    return false;
+  } catch (Exception $e) {
+    throw $e->getMessage();
+  }
+}
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ HOME DISPLAY FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /**
  * @author Thomas Fujise
@@ -282,6 +309,20 @@ EOT;
     return $result != false ? true : false;
   } catch (Exception $e) {
     throw $e;
+  }
+}
+
+function UpdateAnimeAvgNote($idAnime, $avgNote){
+  $sql = "UPDATE t_anime SET avgNote = :avgNote WHERE idAnime = :idAnime";
+
+  try{
+    $req = EDatabase::getDb()->prepare($sql);
+    $req->bindParam(':avgNote', $avgNote);
+    $req->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
+    $req->execute();
+  }
+  catch (PDOException $e){
+    throw $e->getMessage();
   }
 }
 
