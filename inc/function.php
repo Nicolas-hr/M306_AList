@@ -266,8 +266,35 @@ EOT;
 
     $result = $getAnimeScore->fetch(PDO::FETCH_ASSOC);
 
-    return $result != false? true : false;
+    return $result != false ? true : false;
   } catch (Exception $e) {
     throw $e;
+  }
+}
+
+/**
+ * @author Hoarau Nicolas
+ * @brief Get the anime name with his id
+ *
+ * @param integer $idAnime
+ * @return string
+ */
+function GetAnimeNameById(int $idAnime): string
+{
+  $query = <<<EOT
+SELECT name FROM t_anime WHERE idAnime = :idAnime;
+EOT;
+
+  try {
+    $getAnimeName = EDatabase::getDb()->prepare($query);
+    $getAnimeName->bindParam(':idAnime', $idAnime, PDO::PARAM_INT);
+    $getAnimeName->execute();
+
+    $result = $getAnimeName->fetch(PDO::FETCH_ASSOC);
+    $animeName = filter_var($result['name'], FILTER_SANITIZE_STRING);
+
+    return $animeName;
+  } catch (Exception $e) {
+    throw $e->getMessage();
   }
 }
