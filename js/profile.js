@@ -56,6 +56,9 @@ function ShowProfil(data) {
         <td>
         ${anime.note}
         </td>
+        <td>
+        ${anime.dateWatched != null ? anime.dateWatched.split(' ')[0] : ""}
+        </td>
         </tr>`;
     }
   html += `</table></div></div>`;
