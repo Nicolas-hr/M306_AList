@@ -33,15 +33,17 @@ if ($register) {
         echo "NNN";
     }
 
+    if (strlen($nicknameUser) > 20)
+        $error['nickname'] = "Nickname too long";
+
     // Check if email field is an email and is not empty
     if (!$emailUser) {
         $error["email"] = "Email incomplet";
         echo "EEE";
     }
 
-    if (MailAlreadyUsed($emailUser)) {
+    if (MailAlreadyUsed($emailUser))
         $error["email"] = "Email already used";
-    }
 
     // Check if password is not empty
     if (!$pwdUser) {
